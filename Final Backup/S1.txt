@@ -1,0 +1,227 @@
+S1#sh run
+Building configuration...
+
+Current configuration : 5002 bytes
+!
+! Last configuration change at 00:25:16 UTC Thu Mar 4 1993
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$HGk5$jQ4hG4OQVP1So4SbKtbx8/
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+crypto pki trustpoint TP-self-signed-945197312
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-945197312
+ revocation-check none
+ rsakeypair TP-self-signed-945197312
+!
+!
+crypto pki certificate chain TP-self-signed-945197312
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 39343531 39373331 32301E17 0D393330 33303130 30303035
+  395A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3934 35313937
+  33313230 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  BC614E57 135BE5A7 ECC515B9 D1BD55D5 2384FCC9 794B9217 9B169DB8 2AFA73D1
+  884FA6E2 50975713 379D5C04 EA4096F3 70DD38EF 09FE92BE 90C21656 EA0532AE
+  C5682827 D0DD4B3D 3E607614 A466E89C D0EA5953 7C34C59F 395456EA 19598E4C
+  F7780B3B B74EDD4F 998B5800 FEF54E84 A04CB37B 4852DBC9 3B17E287 FEB94411
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D
+  23041830 168014F5 6F616437 D0FD3053 05E1ECA1 02C8C208 3D4FE430 1D060355
+  1D0E0416 0414F56F 616437D0 FD305305 E1ECA102 C8C2083D 4FE4300D 06092A86
+  4886F70D 01010505 00038181 00484415 06FEA168 8DCF3E65 96FB3317 5EED1AB5
+  876A327F D60848D7 CCDED108 14C5E323 217C3E5A 8B7C5214 72D34CA2 0D7B57F0
+  8C44E1AD B8A23031 AAA31445 ECA4981E DBA40A53 7837B1C8 D9FFC51B 5190B8A4
+  0648C136 7CC5305A 00E56449 2B5002AC 8476E369 B44C2DA7 7DDE244F 807D24A4
+  29D9CBF7 CBDAD943 752384C6 61
+        quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/2
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/3
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode trunk
+!
+interface FastEthernet0/4
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode access
+!
+interface FastEthernet0/6
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode trunk
+!
+interface FastEthernet0/7
+ switchport access vlan 10
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ description Link to S1
+ ip address 172.16.0.2 255.255.248.0
+!
+interface Vlan888
+ description Link to DNS Server
+ ip address 192.168.20.3 255.255.255.0
+!
+ip default-gateway 172.16.0.1
+ip http server
+ip http secure-server
+!
+banner motd ^CStay Out!^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end

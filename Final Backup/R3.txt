@@ -1,0 +1,208 @@
+R3#sh run
+Building configuration...
+
+
+Current configuration : 4421 bytes
+!
+! Last configuration change at 00:03:27 UTC Thu Jun 15 2023
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$E30R$FTlNavDxMvu6HB4mbGJGg0
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3520492340
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3520492340
+ revocation-check none
+ rsakeypair TP-self-signed-3520492340
+!
+!
+crypto pki certificate chain TP-self-signed-3520492340
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33353230 34393233 3430301E 170D3233 30363132 32333232
+  33305A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 35323034
+  39323334 30308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100A03F 7FEC9699 4CFCDE00 EC97E0AC 342EF0F7 65BB99CF D93A2A01
+  7C211C16 B4DA7238 C7A02FC6 1EC17152 D64656CF 5700AA6F 4E94FA0E AC106083
+  1ED75C39 0F56BB10 D46803D6 5BD6BFCC C7A6BD77 041220ED B0587E49 592F8799
+  29B46150 C7249487 E207054A C157C3D8 37ED29D4 F6C2963B 63E705B1 754EEDA1
+  A5E71151 E18BDFA2 F2CAADE3 AFE42C60 1732A100 037E8369 79FB7B37 7CB02B12
+  07875BD2 723D127D F6A66699 091FAB50 06A7D094 D4FE61A6 CD63C1DB A673E7FD
+  A0A779AB 96F26076 38A89DBF AD72CB66 5D930C62 7763732B 558ECBE8 15BBA9FC
+  E1088D4B CF9473F4 7782721B 689248F0 143A26FC 1BEE643C D53E4051 8344D8FD
+  78DE8FF3 AE2D0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 146AA83A 0B5DBD7D 83EE6470 4355F985 1E193CA0
+  63301D06 03551D0E 04160414 6AA83A0B 5DBD7D83 EE647043 55F9851E 193CA063
+  300D0609 2A864886 F70D0101 05050003 82010100 7BB68524 B47A248A 788B798F
+  1FFA8EE0 F77A6A51 9E668FEF D827AA90 820376E6 EA584FA6 F85C63FF 5CB1C9C9
+  AB4779DA 12876BC1 D465FC74 2CF050C5 CFACFA7A 07DF3551 C38FA335 6E128B57
+  4A98AE2D A4DC0ED7 A725E408 F4B5B2E5 EAE9B5E1 B8C173A5 8B153223 A9A1A089
+  609F812B 7B28C00D 1376B7B3 26FFC6DD E14024F9 6F5880EB F21BA9F9 A4C12DFB
+  24E1662B B165F457 81168A6C CD9E6E71 7086D6A7 2DE4D8D3 3C85F59E E9292A87
+  A4615C3A A35A146E 14985355 903BF004 9A031042 1FBD98F1 3C50ABE5 EF19E9C9
+  67B0C893 672903FD 9D29EF36 718C0CAD FDDDE08A 6F05BDA4 AADDED9C A04C5333
+  83B0471A 2D5F558F FFC4AD5D 8108FCE9 0DB63094
+        quit
+!
+license udi pid ISR4221/K9 sn FGL2441LDJ7
+license accept end user agreement
+license boot level appxk9
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username R1 password 0 Summer2023
+username R3 password 0 Summer2023
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+crypto isakmp policy 20
+ encr 3des
+ hash md5
+ authentication pre-share
+ lifetime 3600
+crypto isakmp key cisco123 address 10.0.0.1
+!
+!
+crypto ipsec transform-set myset esp-3des esp-md5-hmac
+ mode tunnel
+!
+!
+!
+!
+!
+!
+crypto map mymap 20 ipsec-isakmp
+ set peer 10.0.0.1
+ set transform-set myset
+ match address 100
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.16.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+!
+interface Serial0/1/0
+ no ip address
+!
+interface Serial0/1/1
+ ip address 10.0.0.6 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+ crypto map mymap
+!
+!
+router eigrp 10
+ network 10.0.0.4 0.0.0.3
+ network 172.16.16.0 0.0.7.255
+ passive-interface GigabitEthernet0/0/0
+!
+ip forward-protocol nd
+no ip http server
+ip http secure-server
+ip nat inside source list 2 interface Serial0/1/1 overload
+ip route 10.0.0.0 255.255.255.252 192.168.0.5
+!
+!
+access-list 1 permit 172.16.16.0 0.0.7.255
+ip access-list extended 100
+ permit ip 172.16.16.0 0.0.7.255 172.16.8.0 0.0.7.255
+!
+!
+!
+!
+control-plane
+!
+banner motd ^CCStayout!^C
+!
+line con 0
+ password Summer2023
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password Capstone2023
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end

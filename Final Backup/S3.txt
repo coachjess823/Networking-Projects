@@ -1,0 +1,164 @@
+S3#sh run
+Building configuration...
+
+Current configuration : 3288 bytes
+!
+! Last configuration change at 22:44:49 UTC Mon Mar 1 1993
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname S3
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$mERr$WwNTNnSaputG/kQ6Y77n.0
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+crypto pki trustpoint TP-self-signed-944190848
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-944190848
+ revocation-check none
+ rsakeypair TP-self-signed-944190848
+!
+!
+crypto pki certificate chain TP-self-signed-944190848
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 39343431 39303834 38301E17 0D393330 33303130 30303130
+  315A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3934 34313930
+  38343830 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  C7CF446F 5891699F 70BA0DF7 320627F6 B02739A1 ABE07E84 F72F39F6 969CBC6C
+  FA5368F4 C085A279 A390C322 205A2ABE 1A9310E1 A22DB429 A9DB0BE8 6A170C40
+  566D5B34 F98F033F B4BCEFC3 497A2DDB A4E53D7F D23F946C C3707752 B556E430
+  9ACBF9BC 27BFB998 8720191A 38C22501 5CFEBDF3 4479345D BD32B040 B9168ADF
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D
+  23041830 168014A2 864A24EF 10018EC2 5BC4174F 0086B5DB 866DDA30 1D060355
+  1D0E0416 0414A286 4A24EF10 018EC25B C4174F00 86B5DB86 6DDA300D 06092A86
+  4886F70D 01010505 00038181 007EFF67 3759144A A5BDBEF1 D5B6D388 750E896E
+  2F0DB1FF C9901BCD 2F72CD2D EC5671C9 D19B3776 6CC4D608 9C16D19C 23AFD4FA
+  52921A66 34F82929 1A3A8CC4 486DECFA EC059742 E9EF8BDC 4186CDC0 8D8DF041
+  B04A1EB2 49F1B37C 3D2AC741 497E6837 B222B171 3BDECFEC D63B8A60 71763AA5
+  947A9DED 1BF1038E F87AC5CB AE
+        quit
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+!
+interface FastEthernet0/2
+!
+interface FastEthernet0/3
+ shutdown
+!
+interface FastEthernet0/4
+ shutdown
+!
+interface FastEthernet0/5
+ shutdown
+!
+interface FastEthernet0/6
+ shutdown
+!
+interface FastEthernet0/7
+ shutdown
+!
+interface FastEthernet0/8
+ shutdown
+!
+interface FastEthernet0/9
+ shutdown
+!
+interface FastEthernet0/10
+ shutdown
+!
+interface FastEthernet0/11
+ shutdown
+!
+interface FastEthernet0/12
+ shutdown
+!
+interface FastEthernet0/13
+ shutdown
+!
+interface FastEthernet0/14
+ shutdown
+!
+interface FastEthernet0/15
+ shutdown
+!
+interface FastEthernet0/16
+ shutdown
+!
+interface FastEthernet0/17
+ shutdown
+!
+interface FastEthernet0/18
+ shutdown
+!
+interface FastEthernet0/19
+ shutdown
+!
+interface FastEthernet0/20
+ shutdown
+!
+interface FastEthernet0/21
+ shutdown
+!
+interface FastEthernet0/22
+ shutdown
+!
+interface FastEthernet0/23
+ shutdown
+!
+interface FastEthernet0/24
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+no ip http server
+no ip http secure-server
+!
+banner motd ^CCstayout^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end

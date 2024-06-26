@@ -1,0 +1,1068 @@
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$kHf9$ZLA//tYVBVOiz5y..HRDM.
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3964982339
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3964982339
+ revocation-check none
+ rsakeypair TP-self-signed-3964982339
+!
+!
+crypto pki certificate chain TP-self-signed-3964982339
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33393634 39383233 3339301E 170D3233 30363036 31393239
+  34395A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 39363439
+  38323333 39308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100CE53 3E7AF76B C461FE98 62DCD192 65B2F476 A1FFEEF6 B68EDA8F
+  09739309 DA9A3BAD F4C57BC0 A044193E 32291FCE C373272F BE386110 B137257F
+  DD9DF290 5E5E79A4 E22E4B4A 70B68978 D45DF5A3 7AED1198 1B1BBC89 F7B8B6C4
+  2A1CDB5E 8AD8ACAC 78687824 372985DF 0FF4FF50 5B487F94 156DDA81 C1DA3E4E
+  D40EBD67 6D0179AE AC6DE866 E9CA1EE3 8D3D2E41 9B23B4CF 5D744126 6BB605F8
+  8DA31BF9 8AA01055 76272142 842F40F6 4C559871 85942848 FB65144E 1DAB8A10
+  0414C485 E5F5CB66 738039BE E28E672B F219D032 C1E0AB64 02292295 BBC9EB53
+  64580F8E 95C5674D 8F105431 BF1FBC08 C3099BA1 F4AB714C 4A90C738 2ACC5370
+  D8FEEF57 1FA50203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 1476EFBF F839670B DA717537 85C8A06F 1D78F929
+  CD301D06 03551D0E 04160414 76EFBFF8 39670BDA 71753785 C8A06F1D 78F929CD
+  300D0609 2A864886 F70D0101 05050003 82010100 B9CD2F9D 23365D0D 69041FEB
+  4A1DA2A9 13CB30B7 63596E8C B74C55C7 6BDF50E7 035A54A0 CAD7777F 914A8E70
+  41546877 90DDC2C9 5591FC3D 0002678D 347F0B10 5659D966 D6D02E66 7E1DF0A0
+  CF224736 CAD827A1 2BE1BA57 397DEF9B 7EB188E7 9B9080F5 6EFF77D5 A3139E9D
+  C6199ABD 49AF8F86 6551C25E 96EF7F4C CD366411 A42FBF04 E1480711 4386A05F
+  885EFA60 DF1BE4C7 565D1A95 8574A2F4 646A4BF8 9DF5D125 D951861E 97FF084F
+  604F0E26 C5485CF1 5CBEC344 1B71B473 855F28C6 AB920446 8A43D419 F2893397
+  B262F774 36A03EE6 A0ED0957 848CE02D 0CAC7251 4C816078 C2C521F5 0FB21D8F
+  A8F0896E 67FB9EDD 5D5B189B 8698B0BB 71479504
+        quit
+!
+license udi pid ISR4221/K9 sn FGL2441LDJ3
+license accept end user agreement
+license boot level appxk9
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username R2 password 0 Summer2023
+username R3 password 0 Summer2023
+username R1 password 0 Summer2023
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.0.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 172.16.32.1 255.255.248.0
+ negotiation auto
+!
+interface Serial0/1/0
+ ip address 10.0.0.5 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+interface Serial0/1/1
+ ip address 10.0.0.2 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+!
+router eigrp 10
+ network 10.0.0.0 0.0.0.3
+ network 10.0.0.4 0.0.0.3
+ network 172.16.0.0 0.0.7.255
+ passive-interface GigabitEthernet0/0/0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip nat inside source list 1 interface Serial0/1/0 overload
+ip nat inside source list 2 interface Serial0/1/1 overload
+ip route 0.0.0.0 0.0.0.0 38.11.10.13
+!
+!
+access-list 1 permit 172.16.0.0 0.0.7.255
+!
+!
+!
+!
+control-plane
+!
+banner motd ^C
+Stay Out!^C
+!
+line con 0
+ password Summer2023
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password Capstone2023
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
+
+
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$Hs4B$hUeVvej5GlPSbLDUY31Bt1
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1948132684
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1948132684
+ revocation-check none
+ rsakeypair TP-self-signed-1948132684
+!
+!
+crypto pki certificate chain TP-self-signed-1948132684
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 31393438 31333236 3834301E 170D3233 30363036 31373437
+  35365A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 39343831
+  33323638 34308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100AD74 489D8E3D 20C89C0E 72060269 8809BAB0 2436860E 78F9E412
+  E4A6F54F 9F4EF3C0 6F9A9C4A F1AFE353 DEA0CB88 0FE7154D 1824A9EC 3D863125
+  2F750EB6 1AC45812 34D1C0C3 89BF03D3 890FEDA1 BF94BB3F F979C7FF 4D87EF99
+  94696FAC 71E000FF AA67BBC9 F0D29906 188723EC 894454EE EC4FCFD2 016261F3
+  43C6BF62 EF774CC3 D12291E8 62CA841B 2C266832 9E43EA97 B57BD2AC A529318A
+  2F2F316E 3DF85D42 7868DE14 C1179714 B9D5AA3E F0A2CE70 EDAF450F 4D810029
+  53503F88 AE1A91BF CD67F682 B96F3E20 5910BA9C 889A29E6 6B4E8244 56469336
+  A7DEBD4C 4785C455 30CA413C 73E3A5C2 CB5CF8DD A5E1474E BF3B3A7A A24EF9F8
+  346D27E3 FB130203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 146703D2 9AC11259 86A70C1A 61AF4E1F E3BDEFEE
+  C5301D06 03551D0E 04160414 6703D29A C1125986 A70C1A61 AF4E1FE3 BDEFEEC5
+  300D0609 2A864886 F70D0101 05050003 82010100 4DD19DBB 998625DB 62B7C4A9
+  DBFF4B8F 0D2799DF F2E7EA89 D2A69F55 A5A41BB3 153DE608 8D3CC65E 5089EFF1
+  889B2E6F D996485F A8E7E2EB 0D726045 7E13283C 6A138F90 D4E57529 4EB11023
+  1E9E905E 8BF80C76 BAA27B76 20A6A029 BAA31BE5 3E7078B9 D650B0C7 7DEAE70C
+  5A49C7B3 0EB93A4C ED938F0A 4FA20CF7 DD210859 4A989B51 AC9D1E99 993AFFD9
+  52F0E394 0BCD61B8 4D29985B 532D0676 BCE972A9 984F90A4 0619D889 C6F836E8
+  0852C62A D66DD0C4 A046B903 9EABA648 82717C1F FB5764B5 B3617F80 1E30BF15
+  61842E69 0684F2C1 FC71DCBE 825465B0 F3EC84A7 2C0C47F9 BBAD8847 E4CCE388
+  338CA23A B641748A 69B076BC FB0C3641 447C0FF1
+        quit
+!
+license udi pid ISR4221/K9 sn FGL2441LERV
+license accept end user agreement
+license boot level appxk9
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username R1 password 0 Summer2023
+username R2 password 0 Summer2023
+username R3 password 0 Summer2023
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.8.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ shutdown
+ negotiation auto
+!
+interface Serial0/1/0
+ ip address 10.0.0.1 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+interface Serial0/1/1
+ no ip address
+ shutdown
+!
+!
+router eigrp 10
+ network 10.0.0.0 0.0.0.3
+ network 172.16.8.0 0.0.7.255
+ passive-interface GigabitEthernet0/0/0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip nat inside source list 1 interface Serial0/1/0 overload
+!
+!
+access-list 1 permit 172.16.0.0 0.0.7.255
+!
+!
+!
+!
+control-plane
+!
+banner motd ^Cstayout!'
+banner motd ^C
+!
+line con 0
+ password Summer2023
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password Capstone2023
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
+
+
+
+hostname R3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$E30R$FTlNavDxMvu6HB4mbGJGg0
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+license udi pid ISR4221/K9 sn FGL2441LDJ7
+license accept end user agreement
+license boot level appxk9
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username R1 password 0 Summer2023
+username R3 password 0 Summer2023
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.16.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+!
+interface Serial0/1/0
+ no ip address
+!
+interface Serial0/1/1
+ ip address 10.0.0.6 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+!
+router eigrp 10
+ network 10.0.0.4 0.0.0.3
+ network 172.16.16.0 0.0.7.255
+ passive-interface GigabitEthernet0/0/0
+!
+ip forward-protocol nd
+no ip http server
+ip http secure-server
+ip nat inside source list 2 interface Serial0/1/1 overload
+!
+!
+access-list 1 permit 172.16.16.0 0.0.7.255
+!
+!
+!
+!
+control-plane
+!
+banner motd ^CStayout!^C
+!
+line con 0
+ password Summer2023
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password Capstone2023
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
+
+
+
+
+hostname S1
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$HGk5$jQ4hG4OQVP1So4SbKtbx8/
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/2
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/3
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/4
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+ switchport port-security
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d71.0ee4
+!
+interface FastEthernet0/6
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+!
+interface FastEthernet0/7
+ switchport access vlan 10
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+!
+interface FastEthernet0/8
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 10
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ description Link to S1
+ ip address 172.16.0.2 255.255.248.0
+!
+ip default-gateway 172.16.0.1
+ip http server
+ip http secure-server
+!
+banner motd ^CStay Out!^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end
+
+
+
+
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$.M6F$TR9WBtmkSkCLD.Ln2Rtxt0
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+ switchport port-security violation  restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d71.0bfb
+ switchport port-security
+!
+interface FastEthernet0/3
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/4
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/6
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/7
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan20
+ description Link to S2
+ ip address 172.16.8.2 255.255.248.0
+!
+ip default-gateway 172.16.16.1
+ip http server
+ip http secure-server
+!
+no vstack
+banner motd ^CStayout!^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end
+
+hostname S3
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$mERr$WwNTNnSaputG/kQ6Y77n.0
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+ switchport port-security
+ switchport port-security violation restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 94de.80cc.3d04
+!
+interface FastEthernet0/3
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/4
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/6
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/7
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 30
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan30
+ description Link to S3
+ ip address 172.16.16.2 255.255.248.0
+!
+ip default-gateway 172.16.16.1
+ip http server
+ip http secure-server
+!
+banner motd ^CCstayout^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end
+
+
+ 

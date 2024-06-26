@@ -1,0 +1,229 @@
+S2#sh run
+Building configuration...
+
+Current configuration : 5075 bytes
+!
+! Last configuration change at 00:30:16 UTC Thu Mar 4 1993
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname S2
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$.M6F$TR9WBtmkSkCLD.Ln2Rtxt0
+!
+no aaa new-model
+system mtu routing 1500
+!
+!
+!
+!
+!
+!
+!
+no ip domain-lookup
+!
+!
+crypto pki trustpoint TP-self-signed-3322435840
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3322435840
+ revocation-check none
+ rsakeypair TP-self-signed-3322435840
+!
+!
+crypto pki certificate chain TP-self-signed-3322435840
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33333232 34333538 3430301E 170D3933 30333031 30303030
+  35375A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 33323234
+  33353834 3030819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100A9B3 3320C4C1 299377BB B026B1C8 B8C5A575 9D565E3D 7904EDD3 95E93AD1
+  60B6A84F F622968F AEC25235 2F3DCB42 455289F4 D944D286 E22F4825 2093C94E
+  DF02176B FB5A1897 27AF2BF9 F1497CC4 884158E0 3C055357 9975FBD0 7EAAC338
+  DD1B828B F85F3BB4 14615932 E6B75905 ABE32F10 9F0799D8 C3AC54C3 9F85B918
+  65010203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603
+  551D2304 18301680 14E3F0EE B4FF6BFB 9917D794 45E3C98C 3E23D16F 4A301D06
+  03551D0E 04160414 E3F0EEB4 FF6BFB99 17D79445 E3C98C3E 23D16F4A 300D0609
+  2A864886 F70D0101 05050003 8181003E 4A8F4FC5 95A28FDD AD9E646A 5B92666E
+  010FF496 37059812 0A723EBC 6BF43095 21A5319D 226536F3 9A2CAADF 4D0690A3
+  1E3D3EC7 85100B8C 80D03A63 D0C712B7 E5CD24D2 A58650D7 68800E30 5612715A
+  D85534F3 A802DE42 18A87659 19258F1C 187A7D89 169DE4E7 9E9DD62A BCB63CA8
+  558E92DF B8679B49 A2C28968 2646BF
+        quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/1
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode trunk
+!
+interface FastEthernet0/2
+ switchport access vlan 99
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode trunk
+ switchport port-security violation  restrict
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1c1b.0d71.0bfb
+ switchport port-security
+!
+interface FastEthernet0/3
+ switchport trunk native vlan 99
+ switchport trunk allowed vlan 10,20,30,99,888
+ switchport mode trunk
+!
+interface FastEthernet0/4
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/5
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/6
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/7
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/8
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/9
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/10
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/11
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/12
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/13
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/14
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/15
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/16
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/17
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/18
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/19
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/20
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/21
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/22
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/23
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface FastEthernet0/24
+ switchport access vlan 20
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan20
+ description Link to S2
+ ip address 172.16.8.2 255.255.248.0
+!
+interface Vlan888
+ description Link to DNS Server
+ ip address 192.168.20.3 255.255.255.0
+!
+ip default-gateway 172.16.0.1
+ip http server
+ip http secure-server
+!
+no vstack
+banner motd ^CStayout!^C
+!
+line con 0
+ password Summer2023
+ login
+line vty 0 4
+ password Capstone2023
+ login
+ transport input ssh
+line vty 5 15
+ login
+!
+end

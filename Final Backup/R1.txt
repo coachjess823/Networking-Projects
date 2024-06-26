@@ -1,0 +1,216 @@
+Stay Out!
+
+User Access Verification
+
+Password:
+R1>en
+Password:
+R1#sh run
+Building configuration...
+
+
+Current configuration : 4593 bytes
+!
+! Last configuration change at 21:33:31 UTC Wed Jun 14 2023
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+platform qfp utilization monitor load 80
+no platform punt-keepalive disable-kernel-core
+!
+hostname R1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 $1$kHf9$ZLA//tYVBVOiz5y..HRDM.
+!
+no aaa new-model
+!
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip dhcp excluded-address 172.16.0.1 172.16.0.10
+!
+ip dhcp pool R1-LAN
+ network 172.16.0.0 255.255.252.0
+ default-router 172.16.0.1
+ dns-server 172.16.0.4
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+!
+!
+!
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3964982339
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3964982339
+ revocation-check none
+ rsakeypair TP-self-signed-3964982339
+!
+!
+crypto pki certificate chain TP-self-signed-3964982339
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33393634 39383233 3339301E 170D3233 30363036 31393239
+  34395A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 39363439
+  38323333 39308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201
+  0A028201 0100CE53 3E7AF76B C461FE98 62DCD192 65B2F476 A1FFEEF6 B68EDA8F
+  09739309 DA9A3BAD F4C57BC0 A044193E 32291FCE C373272F BE386110 B137257F
+  DD9DF290 5E5E79A4 E22E4B4A 70B68978 D45DF5A3 7AED1198 1B1BBC89 F7B8B6C4
+  2A1CDB5E 8AD8ACAC 78687824 372985DF 0FF4FF50 5B487F94 156DDA81 C1DA3E4E
+  D40EBD67 6D0179AE AC6DE866 E9CA1EE3 8D3D2E41 9B23B4CF 5D744126 6BB605F8
+  8DA31BF9 8AA01055 76272142 842F40F6 4C559871 85942848 FB65144E 1DAB8A10
+  0414C485 E5F5CB66 738039BE E28E672B F219D032 C1E0AB64 02292295 BBC9EB53
+  64580F8E 95C5674D 8F105431 BF1FBC08 C3099BA1 F4AB714C 4A90C738 2ACC5370
+  D8FEEF57 1FA50203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF
+  301F0603 551D2304 18301680 1476EFBF F839670B DA717537 85C8A06F 1D78F929
+  CD301D06 03551D0E 04160414 76EFBFF8 39670BDA 71753785 C8A06F1D 78F929CD
+  300D0609 2A864886 F70D0101 05050003 82010100 B9CD2F9D 23365D0
+D 69041FEB
+  4A1DA2A9 13CB30B7 63596E8C B74C55C7 6BDF50E7 035A54A0 CAD7777F 914A8E70
+  41546877 90DDC2C9 5591FC3D 0002678D 347F0B10 5659D966 D6D02E66 7E1DF0A0
+  CF224736 CAD827A1 2BE1BA57 397DEF9B 7EB188E7 9B9080F5 6EFF77D5 A3139E9D
+  C6199ABD 49AF8F86 6551C25E 96EF7F4C CD366411 A42FBF04 E1480711 4386A05F
+  885EFA60 DF1BE4C7 565D1A95 8574A2F4 646A4BF8 9DF5D125 D951861E 97FF084F
+  604F0E26 C5485CF1 5CBEC344 1B71B473 855F28C6 AB920446 8A43D419 F2893397
+  B262F774 36A03EE6 A0ED0957 848CE02D 0CAC7251 4C816078 C2C521F5 0FB21D8F
+  A8F0896E 67FB9EDD 5D5B189B 8698B0BB 71479504
+        quit
+!
+license udi pid ISR4221/K9 sn FGL2441LDJ3
+license accept end user agreement
+license boot level appxk9
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+username R2 password 0 Summer2023
+username R3 password 0 Summer2023
+username R1 password 0 Summer2023
+username ISP password 0 Summer2023
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 38.11.10.13 255.255.255.252
+!
+interface GigabitEthernet0/0/0
+ ip address 172.16.0.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ ip address 172.16.32.1 255.255.248.0
+ ip nat inside
+ negotiation auto
+!
+interface Serial0/1/0
+ ip address 10.0.0.5 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+interface Serial0/1/1
+ ip address 10.0.0.2 255.255.255.252
+ ip nat outside
+ encapsulation ppp
+ ppp authentication chap
+!
+!
+router eigrp 10
+ network 10.0.0.0 0.0.0.3
+ network 10.0.0.4 0.0.0.3
+ network 172.16.0.0 0.0.7.255
+ passive-interface GigabitEthernet0/0/0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip nat inside source list 1 interface Serial0/1/0 overload
+ip nat inside source list 2 interface Serial0/1/1 overload
+ip route 0.0.0.0 0.0.0.0 Loopback0
+!
+!
+access-list 1 permit 172.16.0.0 0.0.7.255
+ip access-list extended 101
+ permit ip 172.16.8.0 0.0.3.255 10.0.0.0 0.255.255.255
+!
+!
+!
+!
+control-plane
+!
+banner motd ^C
+Stay Out!^C
+!
+line con 0
+ password Summer2023
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password Capstone2023
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
